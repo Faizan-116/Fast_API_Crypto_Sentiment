@@ -229,4 +229,4 @@ def sentiment_scores(Curency):
 #api for find sentiment in the text
 @app.post("/findsentiment", status_code=status.HTTP_201_CREATED)
 def sentiment(User: findhas):
-    return sentiment_scores(User.InputText)
+    return sentiment_scores(User.currenceyName)
