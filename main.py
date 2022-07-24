@@ -1,22 +1,21 @@
 # main.py
 from fastapi import FastAPI,status
 from pydantic import BaseModel
-import os
-import textblob
+
+
 import pandas as pd
 from datetime import date
 import datetime
-import nltk
-from nltk.tokenize import word_tokenize 
-from nltk.corpus import stopwords
-stop = stopwords.words('english')
+# import nltk
+# from nltk.tokenize import word_tokenize 
+# from nltk.corpus import stopwords
+# stop = stopwords.words('english')
 import re #[\s!-@^#$]
 from requests import get
 from bs4 import BeautifulSoup
 import praw
-import pandas as pd
 import datetime as dt
-import pandas as pd
+
 
 import snscrape.modules.twitter as sntwitter
 
@@ -193,9 +192,7 @@ def sentiment_scores(Curency):
     df["text"]  = df["text"].apply(lambda x : ''.join([i for i in x if not i.isdigit()]))
     df["text"]  = df["text"].apply(lambda x : x.lower())
 
-    df['text']=df['text'].astype(str).apply(word_tokenize)
-    df['text'] = df['text'].apply(lambda x: ' '.join([item for item in x if item not in stop]))
-
+  
     val = Curency
 
     df2 = df[df['text'].str.contains(val)]
