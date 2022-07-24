@@ -98,7 +98,7 @@ def sentiment_scores(Curency):
             text.append(tex.text)
     
     sec_df = pd.DataFrame({'text': text})
-    
+    return sec_df
     Previous_Date = datetime.datetime.today() - datetime.timedelta(days=7)
     from_date = Previous_Date.strftime ('%Y-%m-%d') # format the date to ddmmyyyy
     today = date.today()
