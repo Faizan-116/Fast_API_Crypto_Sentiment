@@ -2,7 +2,7 @@
 from fastapi import FastAPI,status
 from pydantic import BaseModel
 
-
+import textblob
 import pandas as pd
 from datetime import date
 import datetime
@@ -35,7 +35,7 @@ def hello():
 
 
 class findhas(BaseModel):
-    InputText: str
+    currenceyName: str
     
 #function to extract hastags
 def sentiment_scores(Curency):
@@ -98,7 +98,7 @@ def sentiment_scores(Curency):
             text.append(tex.text)
     
     sec_df = pd.DataFrame({'text': text})
-    return sec_df
+    
     Previous_Date = datetime.datetime.today() - datetime.timedelta(days=7)
     from_date = Previous_Date.strftime ('%Y-%m-%d') # format the date to ddmmyyyy
     today = date.today()
@@ -197,7 +197,24 @@ def sentiment_scores(Curency):
 
     df2 = df[df['text'].str.contains(val)]
     data=df2[['text']]
-    dataa=data.to_dict()
+    # Copying the data into new dataframe called textblob_data
+    textblob_data=data.copy()
+    # Creating additional columns containing polarity score , subjectivity and overall sentiment 
+    sentiment=[]
+    subjectivity=[]
+    sentiment_score=[]
+    for i in textblob_data['text'].values:
+        Tweet = textblob.TextBlob(i)
+        sentiment_score.append(Tweet.sentiment[0])
+        if Tweet.sentiment[0]<0:
+            sentiment.append('Negative')
+        elif Tweet.sentiment[0]>0:
+            sentiment.append('Positive')
+        else:
+            sentiment.append('Neutral')
+        subjectivity.append(Tweet.sentiment[1])
+    textblob_data['Sentiment Score']=sentiment_score
+    dataa=textblob_data.to_dict()
     return dataa
 
 
